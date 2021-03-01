@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.HomeFragment"
+    tools:context=".view.HomeFragment"
     android:id="@+id/homeFragment">
 
    <androidx.cardview.widget.CardView
@@ -25,7 +25,7 @@
                android:id="@+id/weatherIcon"
                android:layout_width="350dp"
                android:layout_height="350dp"
-               android:src="@drawable/ic_01n"
+               android:background="@drawable/ic_01n"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="parent"/>
@@ -185,7 +185,7 @@
                android:textSize="20sp"
                android:textStyle="bold"
                android:textColor="@color/white"
-               android:backgroundTint="@color/night"
+               android:backgroundTint="@color/sun"
                android:padding="10dp"
                />
 

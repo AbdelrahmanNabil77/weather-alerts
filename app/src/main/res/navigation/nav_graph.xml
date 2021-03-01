@@ -7,17 +7,30 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.weatherforecast.fragment.HomeFragment"
+        android:name="com.example.weatherforecast.view.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_daysFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/daysFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.weatherforecast.fragment.FavoriteFragment"
+        android:name="com.example.weatherforecast.view.FavoriteFragment"
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite"/>
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.example.weatherforecast.fragment.AlarmFragment"
+        android:name="com.example.weatherforecast.view.AlarmFragment"
         android:label="Alarm"
         tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/daysFragment"
+        android:name="com.example.weatherforecast.view.DaysFragment"
+        android:label="@string/_7_day_forecast"
+        tools:layout="@layout/fragment_days" />
 </navigation>
