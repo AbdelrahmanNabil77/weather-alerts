@@ -12,11 +12,11 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_daysFragment"
+            app:destination="@id/daysFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/daysFragment" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -32,5 +32,9 @@
         android:id="@+id/daysFragment"
         android:name="com.example.weatherforecast.view.DaysFragment"
         android:label="@string/_7_day_forecast"
-        tools:layout="@layout/fragment_days" />
+        tools:layout="@layout/fragment_days" >
+        <argument
+            android:name="weather"
+            app:argType="com.example.weatherforecast.model.Weather" />
+    </fragment>
 </navigation>
