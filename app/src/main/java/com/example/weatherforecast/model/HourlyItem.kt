@@ -8,37 +8,37 @@ data class HourlyItem(
 	val temp: Double? = null,
 
 	@field:SerializedName("visibility")
-	val visibility: Int? = null,
+	val visibility: Double? = null,
 
 	@field:SerializedName("uvi")
 	val uvi: Double? = null,
 
 	@field:SerializedName("pressure")
-	val pressure: Int? = null,
+	val pressure: Double? = null,
 
 	@field:SerializedName("clouds")
-	val clouds: Int? = null,
+	val clouds: Double? = null,
 
 	@field:SerializedName("feels_like")
 	val feelsLike: Double? = null,
 
 	@field:SerializedName("dt")
-	val dt: Int? = null,
+	val dt: Double? = null,
 
 	@field:SerializedName("pop")
-	val pop: Int? = null,
+	val pop: Double? = null,
 
 	@field:SerializedName("wind_deg")
-	val windDeg: Int? = null,
+	val windDeg: Double? = null,
 
 	@field:SerializedName("dew_point")
-	val dewPoint: Int? = null,
+	val dewPoint: Double? = null,
 
 	@field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
 	@field:SerializedName("humidity")
-	val humidity: Int? = null,
+	val humidity: Double? = null,
 
 	@field:SerializedName("wind_speed")
 	val windSpeed: Double? = null

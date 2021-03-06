@@ -11,8 +11,8 @@
        android:id="@+id/homeCardView"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-
-       android:backgroundTint="#00000000">
+       android:backgroundTint="#00000000"
+       >
        <androidx.core.widget.NestedScrollView
            android:layout_width="match_parent"
            android:layout_height="match_parent">
@@ -25,30 +25,39 @@
                android:id="@+id/weatherIcon"
                android:layout_width="350dp"
                android:layout_height="350dp"
-               android:background="@drawable/ic_01n"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="parent"/>
            <TextView
                android:id="@+id/tempTV"
                app:layout_constraintBottom_toBottomOf="@id/weatherIcon"
-               android:text="32C"
+               android:text="@string/n_a"
                android:textSize="50sp"
                style="@style/textViewStyle"
                />
+           <TextView
+               android:id="@+id/tempUnit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:layout_constraintStart_toEndOf="@id/tempTV"
+               app:layout_constraintTop_toTopOf="@id/tempTV"
+               android:textStyle="bold"
+               android:textColor="@color/white"
+               android:textSize="50sp"
+               android:text="K"/>
            <TextView
                android:id="@+id/timezoneTV"
                app:layout_constraintTop_toBottomOf="@id/weatherIcon"
                style="@style/textViewStyle"
                android:textSize="25sp"
-               android:text="Europe/MOSCOW"
+               android:text="@string/n_a"
                />
            <TextView
                android:id="@+id/descriptionTV"
                style="@style/textViewStyle"
                app:layout_constraintTop_toBottomOf="@id/timezoneTV"
                android:textSize="20sp"
-               android:text="cloudy"
+               android:text="@string/n_a"
                />
            <TextView
                android:id="@+id/timeTV"
@@ -97,8 +106,19 @@
                android:textStyle="bold"
                android:textColor="@color/white"
                android:textSize="20sp"
-               android:text="33"
+               android:text="@string/n_a"
                />
+           <TextView
+               android:id="@+id/humidityUnit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:layout_constraintStart_toEndOf="@id/humidityTV"
+               app:layout_constraintTop_toTopOf="@id/humidityTV"
+               android:textStyle="bold"
+               android:textColor="@color/white"
+               android:textSize="20sp"
+               android:text="%"/>
+
            <TextView
                android:id="@+id/windSpeedLabel"
                android:layout_width="wrap_content"
@@ -122,8 +142,18 @@
                android:textStyle="bold"
                android:textColor="@color/white"
                android:textSize="20sp"
-               android:text="33"
+               android:text="@string/n_a"
                />
+           <TextView
+               android:id="@+id/windSpeedUnit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:layout_constraintStart_toEndOf="@id/windSpeedTV"
+               app:layout_constraintTop_toTopOf="@id/windSpeedTV"
+               android:textStyle="bold"
+               android:textColor="@color/white"
+               android:textSize="20sp"
+               android:text="m/s"/>
            <TextView
                android:id="@+id/pressureLabel"
                android:layout_width="wrap_content"
@@ -140,20 +170,30 @@
                android:id="@+id/pressureTV"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintEnd_toStartOf="@id/pressureUnit"
                app:layout_constraintTop_toTopOf="@id/humidityLabel"
+               android:textStyle="bold"
+               android:textColor="@color/white"
+               android:textSize="20sp"
+               android:text="@string/n_a"
+               />
+           <TextView
+               android:id="@+id/pressureUnit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="@id/humidityTV"
                android:layout_marginEnd="10dp"
                android:textStyle="bold"
                android:textColor="@color/white"
                android:textSize="20sp"
-               android:text="33"
-               />
+               android:text="hPa"/>
            <TextView
                android:id="@+id/cloudLabel"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               app:layout_constraintEnd_toStartOf="@id/pressureTV"
-               app:layout_constraintTop_toTopOf="@id/windSpeedLabel"
+               app:layout_constraintEnd_toStartOf="@id/cloudTV"
+               app:layout_constraintTop_toTopOf="@id/windSpeedTV"
                android:textStyle="bold"
                android:layout_marginEnd="10dp"
                android:textColor="@color/white"
@@ -164,13 +204,31 @@
                android:id="@+id/cloudTV"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
+               app:layout_constraintEnd_toStartOf="@id/cloudsUnit"
+               app:layout_constraintTop_toTopOf="@id/cloudLabel"
+               android:textStyle="bold"
+               android:textColor="@color/white"
+               android:textSize="20sp"
+               android:text="@string/n_a"
+               />
+           <TextView
+               android:id="@+id/cloudsUnit"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
                app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintTop_toTopOf="@id/windSpeedLabel"
+               app:layout_constraintTop_toTopOf="@id/windSpeedTV"
                android:layout_marginEnd="10dp"
                android:textStyle="bold"
                android:textColor="@color/white"
                android:textSize="20sp"
-               android:text="33"
+               android:text="%"/>
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/hoursRecView"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:layout_constraintTop_toBottomOf="@id/windSpeedLabel"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                />
            <androidx.appcompat.widget.AppCompatButton
                android:id="@+id/weekForecast"
@@ -178,7 +236,7 @@
                android:layout_height="wrap_content"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/windSpeedLabel"
+               app:layout_constraintTop_toBottomOf="@id/hoursRecView"
                android:layout_marginTop="15dp"
                android:background="@drawable/round_btn"
                android:text="@string/_7_day_forecast"

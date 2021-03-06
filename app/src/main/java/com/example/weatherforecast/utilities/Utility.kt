@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.example.weatherforecast.R
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 import java.util.Calendar.*
 import kotlin.coroutines.coroutineContext
@@ -67,5 +70,10 @@ class Utility() {
             return calendar
         }
 
+        fun epochToDate(epoch:Int):LocalDate{
+            val dt = Instant.ofEpochSecond(epoch.toLong()).atZone(ZoneId.systemDefault()).toLocalDate()
+            return dt
+
+        }
     }
 }

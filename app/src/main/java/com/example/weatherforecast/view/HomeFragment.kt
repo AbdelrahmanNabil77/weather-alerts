@@ -2,15 +2,16 @@ package com.example.weatherforecast.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.text.Layout
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +19,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentHomeBinding
 import com.example.weatherforecast.model.Constants
 import com.example.weatherforecast.model.Weather
@@ -29,21 +30,11 @@ import com.example.weatherforecast.utilities.Utility
 import com.example.weatherforecast.viewmodel.HomeViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
 
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment() {
     lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     val permissionID=7
     lateinit var latLng: LatLng
@@ -54,9 +45,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding get() = _binding!!
     var weather: Weather?=null
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -71,29 +62,37 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         done=MutableLiveData()
         done.postValue(false)
         getLocation()
-        done.observe(viewLifecycleOwner,{
-            if(it) {
-                viewModel.fetchData(latLng.latitude, latLng.longitude)
+        done.observe(viewLifecycleOwner, {
+            if (it) {
+                if (isOnline(requireContext())) {
+                    viewModel.fetchData(latLng.latitude, latLng.longitude)
+                } else {
+                    noInternetDialog()
+                }
             }
         })
-        viewModel.weatherLiveDate.observe(viewLifecycleOwner,{
-            weather=it
-            binding.tempTV.text=it.current?.temp.toString()+"F"
-            binding.dateTV.text=DateFormat.getDateInstance().format(Utility.getCurrentDateAndTime().time)
-            binding.timeTV.text=simpleDateFormat.format(Utility.getCurrentDateAndTime().time)
-            binding.humidityTV.text=it.current?.humidity.toString()
-            binding.windSpeedTV.text=it.current?.windSpeed.toString()
-            binding.pressureTV.text=it.current?.pressure.toString()
-            binding.cloudTV.text=it.current?.clouds.toString()
-            binding.descriptionTV.text= it.current?.weather?.get(0)?.description
-            binding.timezoneTV.text=it.timezone
-            binding.weatherIcon.background=Utility.getIcon(this.context, it.current?.weather!![0]?.icon.toString())
-            Log.d(Constants.logTag,"TIMEZONE IS: "+it.timezone)
-
+        viewModel.weatherLiveDate.observe(viewLifecycleOwner, {
+            viewModel.insertHomeWeather(it)
+        })
+        viewModel.getCurrentWeather(this).observe(viewLifecycleOwner, {
+            if (it != null) {
+                weather = it
+                binding.tempTV.text = it.current?.temp.toString()
+                binding.dateTV.text = DateFormat.getDateInstance().format(Utility.getCurrentDateAndTime().time)
+                binding.timeTV.text = simpleDateFormat.format(Utility.getCurrentDateAndTime().time)
+                binding.humidityTV.text = it.current?.humidity.toString()
+                binding.windSpeedTV.text = it.current?.windSpeed.toString()
+                binding.pressureTV.text = it.current?.pressure.toString()
+                binding.cloudTV.text = it.current?.clouds.toString()
+                binding.descriptionTV.text = it.current?.weather?.get(0)?.description
+                binding.timezoneTV.text = it.timezone
+                binding.weatherIcon.background = Utility.getIcon(this.context, it.current?.weather!![0]?.icon.toString())
+                Log.d(Constants.logTag, "TIMEZONE IS: " + it.timezone)
+            }
         })
         binding.weekForecast.setOnClickListener {
             if(weather!=null){
-        val action=HomeFragmentDirections.actionHomeFragmentToDaysFragment(weather!!)
+                val action=HomeFragmentDirections.actionHomeFragmentToDaysFragment(weather!!)
                 findNavController().navigate(action)
             }
         }
@@ -124,12 +123,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun requestLocation(){
         val locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 100
+        locationRequest.interval = 60000
         //locationRequest.numUpdates=1
         fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.myLooper()
+                locationRequest,
+                locationCallback,
+                Looper.myLooper()
         )
     }
 
@@ -157,8 +156,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun isPermissionsGranted(): Boolean {
         return if (ActivityCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
+                        requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             true
         } else {
@@ -169,21 +168,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     //request permission for accessing location
     private fun requestPermission(){
         var permissions= arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
         )
-        ActivityCompat.requestPermissions(requireActivity(), permissions as Array<String>, permissionID)
+        requestPermissions(permissions, permissionID)
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(Constants.logTag, "req " + requestCode)
         if (requestCode==permissionID){
-            if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            if (grantResults.get(0)==PackageManager.PERMISSION_GRANTED){
+                Log.d(Constants.logTag, "GRANTED")
                 getLocation()
-            }
-            else{
+            }else{
+                Log.d(Constants.logTag, "DENIED")
                 warningDialog()
             }
         }
@@ -193,8 +193,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val builder = AlertDialog.Builder(requireActivity())
         builder.setTitle("Warning")
         builder.setMessage(
-            "without this permission the app will not be able to work properly!\n " +
-                    "Would you like to give us the permission?"
+                "without this permission the app will not be able to work properly!\n " +
+                        "Would you like to give us the permission?"
         )
 
         builder.setPositiveButton("Yes") { dialog, which ->
@@ -203,5 +203,34 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         builder.setNegativeButton("No") { dialog, which ->
         }
         builder.show()
+    }
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    private fun noInternetDialog() {
+        AlertDialog.Builder(requireContext()).setTitle("Network Error").setMessage("Ooops!!\nThe application needs to be connected" +
+                "to the internet at least for the first time.\n" +
+                "May you switch on the internet connection and restart the application?").setPositiveButton("Restart") { dialog, which ->
+            val intent = requireActivity().intent
+            requireActivity().finish()
+            startActivity(intent)
+        }.setNegativeButton("Exit") { dialog, which -> requireActivity().finish() }.show()
     }
 }
