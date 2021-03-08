@@ -48,14 +48,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/sideDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:menu="@menu/bottom_navbar"
-        android:layout_gravity="start"
-        android:background="#0010AAC7"
-        app:itemTextColor="@color/white"
-        app:itemIconTint="@color/white"
-        />
+
 </androidx.drawerlayout.widget.DrawerLayout>

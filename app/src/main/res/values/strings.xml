@@ -8,4 +8,21 @@
     <string name="clouds">Clouds:</string>
     <string name="_7_day_forecast">7-Day forecast</string>
     <string name="n_a">N/A</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="alarm">Alarm</string>
+    <string name="settings">Settings</string>
+    <string name="units">Units:</string>
+    <string name="language">Language:</string>
+    <string-array name="unitsArr">
+        <item>Choose unit</item>
+        <item>Standard</item>
+        <item>Imperial</item>
+        <item>Metric</item>
+    </string-array>
+    <string-array name="LocaleArr">
+        <item>Choose Language</item>
+        <item>Arabic</item>
+        <item>English</item>
+    </string-array>
 </resources>

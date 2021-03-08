@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.weatherforecast.datalayer.Repository
 import com.example.weatherforecast.model.Constants
 import com.example.weatherforecast.model.Weather
+import com.example.weatherforecast.utilities.Utility
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
 
@@ -26,16 +27,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         repository.insertWeather(weather)
     }*/
 
-    fun fetchData(lat: Double, long: Double) {
-        Log.d(Constants.logTag, "fun fetch")
+    fun fetchData(lat: Double, long: Double,context:Context) {
+        val unit=repository.getUnit(context)
+        val locale=Utility.getLocale(context)
         CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.remoteWeather.getWeather(lat, long, "minutely", Constants.APIKEY)
+            val response = repository.remoteWeather.getWeather(lat, long, "minutely", Constants.APIKEY,unit,locale)
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     weatherLiveDate.postValue(response.body())
                 }
             }
         }
+    }
+
+    fun setUnit(context: Context,unit:String){
+        repository.setUnit(context,unit)
     }
 
     fun insertHomeWeather(weather: Weather){
@@ -45,6 +51,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getCurrentWeather(fragment: Fragment):LiveData<Weather>{
         return repository.getHomeWeather(getApplication(),fragment)
+    }
+
+    fun getUnit(context: Context):String{
+        return  repository.getUnit(context)
     }
 
 }

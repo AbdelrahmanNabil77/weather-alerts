@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.example.weatherforecast.R
+import com.example.weatherforecast.model.Constants
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -74,6 +75,45 @@ class Utility() {
             val dt = Instant.ofEpochSecond(epoch.toLong()).atZone(ZoneId.systemDefault()).toLocalDate()
             return dt
 
+        }
+
+        fun isMorning():Boolean{
+            var calendar= getInstance()
+            var hours=calendar.get(HOUR_OF_DAY) as Integer
+            return if(hours>=5&&hours<=17) {
+                true
+            }else{
+                false
+            }
+
+        }
+
+        fun getUnit(context: Context):String{
+            val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+            val editor=sharedPref.edit()
+            val unit=sharedPref.getString(Constants.unitsInput,null)
+            return if (unit==null||unit.equals("")){
+                editor.apply{
+                    putString(Constants.unitsInput,Constants.unitsStandard)
+                }.apply()
+                Constants.unitsStandard
+            }else{
+                unit
+            }
+        }
+
+        fun getLocale(context: Context):String{
+            val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+            val editor=sharedPref.edit()
+            val locale=sharedPref.getString(Constants.langInput,null)
+            return if (locale==null||locale.equals("")){
+                editor.apply{
+                    putString(Constants.langInput, Constants.langEn)
+                }.apply()
+                Constants.langEn
+            }else{
+                locale
+            }
         }
     }
 }

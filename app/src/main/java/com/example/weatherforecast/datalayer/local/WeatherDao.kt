@@ -12,7 +12,7 @@ import com.example.weatherforecast.model.Weather
 @Dao
 interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertWeather(weather: Weather)
+    fun insertWeather(weather: Weather):Long
 
     @Query("select * from Weather where lat= :lat AND lon= :lon ")
     fun getHomeWeather(lat:String, lon:String): LiveData<Weather>

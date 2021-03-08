@@ -23,6 +23,7 @@ class WeekAdapter(var weather: Weather): RecyclerView.Adapter<WeekAdapter.DayIte
         holder.binding.weatherDescription.text=day.weather?.get(0)?.description
         holder.binding.weatherIcon.background=Utility.getIcon(holder.itemView.context,day.weather?.get(0)?.icon!!)
 
+
     }
 
     override fun getItemCount(): Int {

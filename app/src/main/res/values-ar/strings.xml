@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">توقعات الطقس</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="humidity"> الرطوبة:</string>
+    <string name="wind_speed">سرعة الرياح: </string>
+    <string name="pressure">الضغط: </string>
+    <string name="clouds">الغيوم: </string>
+    <string name="_7_day_forecast">توقعات 7 ايام</string>
+    <string name="n_a">غير متاح</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="favorite">المفضلة</string>
+    <string name="alarm">المنبه</string>
+    <string name="settings">الاعدادات</string>
+    <string name="units">الوحدات: </string>
+    <string name="language">اللغات: </string>
+    <string-array name="unitsArr">
+        <item>اختر الوحدة</item>
+        <item>Standard</item>
+        <item>Imperial</item>
+        <item>Metric</item>
+    </string-array>
+    <string-array name="LocaleArr">
+        <item>اختر اللغة</item>
+        <item>Arabic</item>
+        <item>English</item>
+    </string-array>
+</resources>

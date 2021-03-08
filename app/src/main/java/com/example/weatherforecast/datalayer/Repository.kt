@@ -54,6 +54,43 @@ class Repository() {
     }
 
 
+    fun getUnit(context: Context):String{
+        val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+        val editor=sharedPref.edit()
+        val unit=sharedPref.getString(Constants.unitsInput,null)
+        return if (unit==null||unit.equals("")){
+            editor.apply{
+                putString(Constants.unitsInput,Constants.unitsStandard)
+            }.apply()
+            Constants.unitsStandard
+        }else{
+        unit
+        }
+    }
+
+    fun setUnit(context: Context,unit:String){
+        val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+        val editor=sharedPref.edit()
+            editor.apply{
+                putString(Constants.unitsInput,unit)
+            }.apply()
+    }
+
+
+
+    fun setLocale(context: Context,locale:String){
+        val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+        val editor=sharedPref.edit()
+        editor.apply{
+            putString(Constants.langInput,locale)
+        }.apply()
+    }
+
+    fun deleteItem(lat:Double,lon:Double){
+        CoroutineScope(Dispatchers.IO).launch {
+            weatherDao.deleteOldHome(""+lat,""+lon)
+        }
+    }
 
     fun saveCurrentLocation(context: Context, currentLocation:LatLng){
         val sharedPref= context.getSharedPreferences(Constants.sharedPrefLocation,Context.MODE_PRIVATE)

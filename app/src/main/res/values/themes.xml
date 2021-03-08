@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WeatherForecast" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.WeatherForecast" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
 <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
@@ -30,5 +30,10 @@
         <item name="android:textSize">23sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">10dp</item>
+    </style>
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

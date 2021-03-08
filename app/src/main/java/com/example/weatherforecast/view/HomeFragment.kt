@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -13,6 +14,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -22,6 +24,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.R
 import androidx.navigation.fragment.findNavController
 import com.example.weatherforecast.databinding.FragmentHomeBinding
 import com.example.weatherforecast.model.Constants
@@ -44,6 +47,7 @@ class HomeFragment : Fragment() {
 // onDestroyView.
     private val binding get() = _binding!!
     var weather: Weather?=null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -54,9 +58,31 @@ class HomeFragment : Fragment() {
         return view
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(Utility.isMorning()){
+            //binding.weekForecast.setBackgroundColor(Color.parseColor("#723200"))
+
+        }else{
+            //binding.weekForecast.setBackgroundColor(Color.parseColor("#7269AF"))
+        }
         val viewModel=ViewModelProvider(this).get(HomeViewModel::class.java)
+        if (viewModel.getUnit(requireContext()).equals("standard")){
+            Toast.makeText(requireContext(),"STND",Toast.LENGTH_SHORT).show()
+            binding.windSpeedUnit.text="meter/sec"
+            binding.tempUnit.text="K"
+
+        }else if (viewModel.getUnit(requireContext()).equals("metric")){
+            Toast.makeText(requireContext(),"MET",Toast.LENGTH_SHORT).show()
+            binding.windSpeedUnit.text="meter/sec"
+            binding.tempUnit.text="C"
+        }
+        else if (viewModel.getUnit(requireContext()).equals("imperial")){
+            Toast.makeText(requireContext(),"IMP",Toast.LENGTH_SHORT).show()
+            binding.windSpeedUnit.text="mile/hr"
+            binding.tempUnit.text="F"
+        }
         val simpleDateFormat = SimpleDateFormat("hh:mm");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         done=MutableLiveData()
@@ -65,7 +91,7 @@ class HomeFragment : Fragment() {
         done.observe(viewLifecycleOwner, {
             if (it) {
                 if (isOnline(requireContext())) {
-                    viewModel.fetchData(latLng.latitude, latLng.longitude)
+                    viewModel.fetchData(latLng.latitude, latLng.longitude,requireContext())
                 } else {
                     noInternetDialog()
                 }
@@ -92,7 +118,8 @@ class HomeFragment : Fragment() {
         })
         binding.weekForecast.setOnClickListener {
             if(weather!=null){
-                val action=HomeFragmentDirections.actionHomeFragmentToDaysFragment(weather!!)
+                //val action=HomeFragmentDirections.actionHomeFragmentToDaysFragment(weather!!)
+                val action=HomeFragmentDirections.actionGlobalDaysFragment(weather!!)
                 findNavController().navigate(action)
             }
         }
@@ -233,4 +260,7 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }.setNegativeButton("Exit") { dialog, which -> requireActivity().finish() }.show()
     }
+
+
+
 }
