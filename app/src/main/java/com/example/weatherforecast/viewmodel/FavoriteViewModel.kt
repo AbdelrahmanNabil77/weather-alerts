@@ -52,7 +52,7 @@ class FavoriteViewModel(var app: Application) : AndroidViewModel(app) {
     }
 
     fun getFavoriteWeatherList(fragment: Fragment){
-        repository.getFavoriteWeatherList(getApplication()).observe(fragment,{
+        repository.getFavoriteWeatherList(getApplication())?.observe(fragment,{
            if (it!=null){
                favoriteWeatherList.postValue(it)
            }

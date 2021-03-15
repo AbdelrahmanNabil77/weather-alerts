@@ -19,6 +19,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var weatherLiveDate = MutableLiveData<Weather>()
 
 
+
     init {
         repository = Repository(application)
     }
@@ -39,6 +40,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
 
     fun setUnit(context: Context,unit:String){
         repository.setUnit(context,unit)

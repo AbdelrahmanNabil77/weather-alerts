@@ -1,5 +1,7 @@
 package com.example.weatherforecast.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.example.weatherforecast.adapter.FavoriteAdapter
 import com.example.weatherforecast.databinding.FragmentFavoriteBinding
 import com.example.weatherforecast.model.Constants
 import com.example.weatherforecast.model.Weather
+import com.example.weatherforecast.utilities.Utility
 import com.example.weatherforecast.viewmodel.FavoriteViewModel
 import com.example.weatherforecast.viewmodel.HomeViewModel
 import com.google.android.gms.maps.model.LatLng
@@ -43,11 +46,18 @@ class FavoriteFragment : Fragment(),FavoriteRecyclerClickListener{
         return view
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(Utility.isMorning()){
+            binding.addBtn.backgroundTintList=context?.resources?.getColorStateList(com.example.weatherforecast.R.color.sun)
+
+
+        }else{
+            binding.addBtn.backgroundTintList=context?.resources?.getColorStateList(com.example.weatherforecast.R.color.night)
+        }
         done=MutableLiveData()
         done.postValue(false)
-
         viewModel= ViewModelProvider(this).get(FavoriteViewModel::class.java)
         viewModel.getFavoriteWeatherList(this)
 
@@ -67,15 +77,21 @@ class FavoriteFragment : Fragment(),FavoriteRecyclerClickListener{
 
         })
         binding.addBtn.setOnClickListener {
-            showAutoCompleteBar()
+            if (Utility.isOnline(requireContext())){
+                showAutoCompleteBar()
+            }else{
+                Toast.makeText(requireContext(),"The internet connection is disabled",Toast.LENGTH_LONG).show()
+            }
         }
 
     }
 
-    private fun updateDataFromApi(weatherList:List<Weather>){
-        if(firstTime) {
-            for (weather in weatherList) {
-                viewModel.insertFavoriteLocation(weather.lat, weather.lon, requireContext())
+    private fun updateDataFromApi(weatherList:List<Weather>) {
+        if (Utility.isOnline(requireContext())) {
+            if (firstTime) {
+                for (weather in weatherList) {
+                    viewModel.insertFavoriteLocation(weather.lat, weather.lon, requireContext())
+                }
             }
         }
     }
@@ -111,7 +127,12 @@ class FavoriteFragment : Fragment(),FavoriteRecyclerClickListener{
     }
 
     override fun deleteItem(weather: Weather) {
-        viewModel.deleteFavoriteItem(weather)
+        val dialog=AlertDialog.Builder(requireContext()).setTitle("Warning").setMessage("Are you sure you want to delete this location from favorite?").setPositiveButton("yes") { dialog, which ->
+            viewModel.deleteFavoriteItem(weather)
+        }.setNegativeButton("no",DialogInterface.OnClickListener { dialog, which ->
+            dialog.dismiss()
+        }).setCancelable(false).show()
+
     }
 
 

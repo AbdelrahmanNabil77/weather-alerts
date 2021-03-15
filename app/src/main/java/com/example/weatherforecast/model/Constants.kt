@@ -15,9 +15,15 @@ interface Constants {
         val unitsImperial="imperial" //For temperature in Fahrenheit and wind speed in miles/hour
         val unitsMetric="metric" //For temperature in Celsius and wind speed in meter/sec
         val unitsStandard="standard" //Temperature in Kelvin and wind speed in meter/sec
+        val tempUnit="tempUnit"
+        val speedUnit="speedUnit"
         val langEn="en"
         val langAr="ar"
         val langDe="de"
         val langRu="ru"
+        val alertID="alertID"
+        val ALERT="ALERT"
+        val EVENT="EVENT"
+        val channel1ID="channel1ID"
     }
 }

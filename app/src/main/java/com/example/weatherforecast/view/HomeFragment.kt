@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -26,13 +27,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.R
 import androidx.navigation.fragment.findNavController
+import com.example.weatherforecast.NavGraphDirections
+import com.example.weatherforecast.adapter.HourAdapter
 import com.example.weatherforecast.databinding.FragmentHomeBinding
 import com.example.weatherforecast.model.Constants
 import com.example.weatherforecast.model.Weather
 import com.example.weatherforecast.utilities.Utility
+import com.example.weatherforecast.utilities.Utility.Companion.isOnline
 import com.example.weatherforecast.viewmodel.HomeViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
@@ -62,38 +69,34 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(Utility.isMorning()){
-            //binding.weekForecast.setBackgroundColor(Color.parseColor("#723200"))
-
+            binding.weekForecast.backgroundTintList=context?.resources?.getColorStateList(com.example.weatherforecast.R.color.sun)
+            binding.hoursForecast.backgroundTintList=context?.resources?.getColorStateList(com.example.weatherforecast.R.color.sun)
         }else{
-            //binding.weekForecast.setBackgroundColor(Color.parseColor("#7269AF"))
+            binding.weekForecast.backgroundTintList=context?.resources?.getColorStateList(com.example.weatherforecast.R.color.night)
+            binding.hoursForecast.backgroundTintList=context?.resources?.getColorStateList(com.example.weatherforecast.R.color.night)
         }
-        val viewModel=ViewModelProvider(this).get(HomeViewModel::class.java)
-        if (viewModel.getUnit(requireContext()).equals("standard")){
-            Toast.makeText(requireContext(),"STND",Toast.LENGTH_SHORT).show()
-            binding.windSpeedUnit.text="meter/sec"
-            binding.tempUnit.text="K"
 
-        }else if (viewModel.getUnit(requireContext()).equals("metric")){
-            Toast.makeText(requireContext(),"MET",Toast.LENGTH_SHORT).show()
-            binding.windSpeedUnit.text="meter/sec"
-            binding.tempUnit.text="C"
-        }
-        else if (viewModel.getUnit(requireContext()).equals("imperial")){
-            Toast.makeText(requireContext(),"IMP",Toast.LENGTH_SHORT).show()
-            binding.windSpeedUnit.text="mile/hr"
-            binding.tempUnit.text="F"
-        }
+        val viewModel=ViewModelProvider(this).get(HomeViewModel::class.java)
+        binding.tempUnit.text=Utility.getTempUnit(requireContext())
+        binding.windSpeedUnit.text=Utility.getWindSpeedUnit(requireContext())
         val simpleDateFormat = SimpleDateFormat("hh:mm");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         done=MutableLiveData()
         done.postValue(false)
         getLocation()
+        binding.hoursForecast.setOnClickListener {
+            if(weather!=null){
+            val action = NavGraphDirections.actionGlobalHoursFragment(weather!!)
+            findNavController().navigate(action)
+        }
+
+        }
         done.observe(viewLifecycleOwner, {
             if (it) {
                 if (isOnline(requireContext())) {
                     viewModel.fetchData(latLng.latitude, latLng.longitude,requireContext())
                 } else {
-                    noInternetDialog()
+                    //noInternetDialog()
                 }
             }
         })
@@ -103,8 +106,9 @@ class HomeFragment : Fragment() {
         viewModel.getCurrentWeather(this).observe(viewLifecycleOwner, {
             if (it != null) {
                 weather = it
+                val simpleDateFormat = SimpleDateFormat("hh:mm")
                 binding.tempTV.text = it.current?.temp.toString()
-                binding.dateTV.text = DateFormat.getDateInstance().format(Utility.getCurrentDateAndTime().time)
+                binding.dateTV.text = Utility.getDate(it.current!!.dt!!.toInt(),it.timezoneOffset!!)//DateFormat.getDateInstance().format(Utility.getCurrentDateAndTime().time)
                 binding.timeTV.text = simpleDateFormat.format(Utility.getCurrentDateAndTime().time)
                 binding.humidityTV.text = it.current?.humidity.toString()
                 binding.windSpeedTV.text = it.current?.windSpeed.toString()
@@ -231,35 +235,8 @@ class HomeFragment : Fragment() {
         }
         builder.show()
     }
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
-        }
-        return false
-    }
-    private fun noInternetDialog() {
-        AlertDialog.Builder(requireContext()).setTitle("Network Error").setMessage("Ooops!!\nThe application needs to be connected" +
-                "to the internet at least for the first time.\n" +
-                "May you switch on the internet connection and restart the application?").setPositiveButton("Restart") { dialog, which ->
-            val intent = requireActivity().intent
-            requireActivity().finish()
-            startActivity(intent)
-        }.setNegativeButton("Exit") { dialog, which -> requireActivity().finish() }.show()
-    }
+
+
 
 
 

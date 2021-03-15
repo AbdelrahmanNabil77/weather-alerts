@@ -1,254 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/favoriteItemCardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/favoriteItemCardView"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
     android:backgroundTint="#40000000"
-    app:cardCornerRadius="10dp"
-    android:layout_margin="5dp">
+    app:cardCornerRadius="10dp">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/constraintLayout"
-                >
-                <ImageButton
-                    android:id="@+id/deleteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_clear"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_margin="10dp"/>
-                <ImageView
-                    android:id="@+id/weatherIcon"
-                    android:layout_width="350dp"
-                    android:layout_height="350dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-                <TextView
-                    android:id="@+id/tempTV"
-                    app:layout_constraintBottom_toBottomOf="@id/weatherIcon"
-                    android:text="@string/n_a"
-                    android:textSize="50sp"
-                    style="@style/textViewStyle"
-                    />
-                <TextView
-                    android:id="@+id/tempUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/tempTV"
-                    app:layout_constraintTop_toTopOf="@id/tempTV"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="50sp"
-                    android:text="K"/>
-                <TextView
-                    android:id="@+id/timezoneTV"
-                    app:layout_constraintTop_toBottomOf="@id/weatherIcon"
-                    style="@style/textViewStyle"
-                    android:textSize="25sp"
-                    android:text="@string/n_a"
-                    />
-                <TextView
-                    android:id="@+id/descriptionTV"
-                    style="@style/textViewStyle"
-                    app:layout_constraintTop_toBottomOf="@id/timezoneTV"
-                    android:textSize="20sp"
-                    android:text="@string/n_a"
-                    />
-                <TextView
-                    android:id="@+id/timeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/deleteBtn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="10dp"
-                    android:text="23:43"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:id="@+id/dateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/deleteBtn"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="10dp"
-                    android:text="2/26/2021"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:id="@+id/humidityLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/descriptionTV"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/humidity"
-                    />
-                <TextView
-                    android:id="@+id/humidityTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/humidityLabel"
-                    app:layout_constraintTop_toTopOf="@id/humidityLabel"
-                    android:layout_marginStart="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/n_a"
-                    />
-                <TextView
-                    android:id="@+id/humidityUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/humidityTV"
-                    app:layout_constraintTop_toTopOf="@id/humidityTV"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="%"/>
 
-                <TextView
-                    android:id="@+id/windSpeedLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/humidityLabel"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/wind_speed"
-                    />
-                <TextView
-                    android:id="@+id/windSpeedTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/windSpeedLabel"
-                    app:layout_constraintTop_toTopOf="@id/windSpeedLabel"
-                    android:layout_marginStart="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/n_a"
-                    />
-                <TextView
-                    android:id="@+id/windSpeedUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/windSpeedTV"
-                    app:layout_constraintTop_toTopOf="@id/windSpeedTV"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="m/s"/>
-                <TextView
-                    android:id="@+id/pressureLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/pressureTV"
-                    app:layout_constraintTop_toTopOf="@id/humidityLabel"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/pressure"
-                    />
-                <TextView
-                    android:id="@+id/pressureTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/pressureUnit"
-                    app:layout_constraintTop_toTopOf="@id/humidityLabel"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/n_a"
-                    />
-                <TextView
-                    android:id="@+id/pressureUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/humidityTV"
-                    android:layout_marginEnd="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="hPa"/>
-                <TextView
-                    android:id="@+id/cloudLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/cloudTV"
-                    app:layout_constraintTop_toTopOf="@id/windSpeedTV"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/clouds"
-                    />
-                <TextView
-                    android:id="@+id/cloudTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/cloudsUnit"
-                    app:layout_constraintTop_toTopOf="@id/cloudLabel"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="@string/n_a"
-                    />
-                <TextView
-                    android:id="@+id/cloudsUnit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/windSpeedTV"
-                    android:layout_marginEnd="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:text="%"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/weekForecast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/windSpeedLabel"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_margin="15dp"
-                    android:background="@drawable/round_btn"
-                    android:text="@string/_7_day_forecast"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/sun"
-                    android:padding="10dp"
-                    />
+            <ImageButton
+                android:id="@+id/deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_clear"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/weatherIcon"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tempTV"
+                style="@style/textViewStyle"
+                android:text="@string/n_a"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="@id/weatherIcon" />
+
+            <TextView
+                android:id="@+id/tempUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="K"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/tempTV"
+                app:layout_constraintTop_toTopOf="@id/tempTV" />
+
+            <TextView
+                android:id="@+id/timezoneTV"
+                style="@style/textViewStyle"
+                android:text="@string/n_a"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@id/weatherIcon" />
+
+            <TextView
+                android:id="@+id/descriptionTV"
+                style="@style/textViewStyle"
+                android:text="@string/n_a"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@id/timezoneTV" />
+
+            <TextView
+                android:id="@+id/timeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="23:43"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/deleteBtn" />
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="2/26/2021"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/deleteBtn" />
+
+            <TextView
+                android:id="@+id/humidityLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/humidity"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTV" />
+
+            <TextView
+                android:id="@+id/humidityTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/n_a"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/humidityLabel"
+                app:layout_constraintTop_toTopOf="@id/humidityLabel" />
+
+            <TextView
+                android:id="@+id/humidityUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/humidityTV"
+                app:layout_constraintTop_toTopOf="@id/humidityTV" />
+
+            <TextView
+                android:id="@+id/windSpeedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/wind_speed"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/humidityLabel" />
+
+            <TextView
+                android:id="@+id/windSpeedTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/n_a"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/windSpeedLabel"
+                app:layout_constraintTop_toTopOf="@id/windSpeedLabel" />
+
+            <TextView
+                android:id="@+id/windSpeedUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="m/s"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/windSpeedTV"
+                app:layout_constraintTop_toTopOf="@id/windSpeedTV" />
+
+            <TextView
+                android:id="@+id/pressureLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="@string/pressure"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/pressureTV"
+                app:layout_constraintTop_toTopOf="@id/humidityLabel" />
+
+            <TextView
+                android:id="@+id/pressureTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/pressureUnit"
+                app:layout_constraintTop_toTopOf="@id/humidityLabel" />
+
+            <TextView
+                android:id="@+id/pressureUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="hPa"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/humidityTV" />
+
+            <TextView
+                android:id="@+id/cloudLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="@string/clouds"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/cloudTV"
+                app:layout_constraintTop_toTopOf="@id/windSpeedTV" />
+
+            <TextView
+                android:id="@+id/cloudTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/cloudsUnit"
+                app:layout_constraintTop_toTopOf="@id/cloudLabel" />
+
+            <TextView
+                android:id="@+id/cloudsUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="%"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/windSpeedTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/hoursForecast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/round_btn"
+                android:backgroundTint="@color/night"
+                android:padding="10dp"
+                android:text="@string/_24_hour_forecast"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cloudsUnit" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/weekForecast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/round_btn"
+                android:backgroundTint="@color/night"
+                android:padding="10dp"
+                android:text="@string/_7_day_forecast"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hoursForecast" />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
 
 </androidx.cardview.widget.CardView>

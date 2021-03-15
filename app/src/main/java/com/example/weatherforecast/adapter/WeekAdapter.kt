@@ -18,7 +18,7 @@ class WeekAdapter(var weather: Weather): RecyclerView.Adapter<WeekAdapter.DayIte
 
     override fun onBindViewHolder(holder: DayItemViewHolder, position: Int) {
         var day= weather.daily?.get(position)
-        holder.binding.dateTV.text=""+(Utility.epochToDate((day!!.dt!!)))
+        holder.binding.dateTV.text=Utility.getDate(day!!.dt!!.toInt(),weather.timezoneOffset!!)//""+(Utility.epochToDate((day!!.dt!!)))
         holder.binding.timezoneTV.text=weather.timezone
         holder.binding.weatherDescription.text=day.weather?.get(0)?.description
         holder.binding.weatherIcon.background=Utility.getIcon(holder.itemView.context,day.weather?.get(0)?.icon!!)

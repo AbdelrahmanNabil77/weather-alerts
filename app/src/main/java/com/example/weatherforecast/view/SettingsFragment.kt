@@ -62,13 +62,16 @@ class SettingsFragment : Fragment() {
                     when(parent?.getItemAtPosition(position).toString()){
                         "Imperial"->{
                             viewModel.repository.setUnit(requireContext(),Constants.unitsImperial)
+                            restart()
 
                         }
                         "Standard"->{
                             viewModel.repository.setUnit(requireContext(),Constants.unitsStandard)
+                            restart()
                         }
                         "Metric"->{
                             viewModel.repository.setUnit(requireContext(),Constants.unitsMetric)
+                            restart()
                         }
                     }
                 }

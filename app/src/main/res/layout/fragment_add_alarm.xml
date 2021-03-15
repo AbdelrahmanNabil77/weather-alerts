@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.AddAlarmFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addAlarmCardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="#40000000"
+        app:cardCornerRadius="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/date"
+                android:textColor="#C0C0C0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/timeLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/dateBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_calendar"
+                app:layout_constraintEnd_toEndOf="@id/dateLabel"
+                app:layout_constraintStart_toStartOf="@id/dateLabel"
+                app:layout_constraintTop_toBottomOf="@id/dateLabel" />
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#C0C0C0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/timeTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dateBtn" />
+
+            <TextView
+                android:id="@+id/timeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/time"
+                android:textColor="#C0C0C0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dateLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/timeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_time"
+                app:layout_constraintEnd_toEndOf="@id/timeLabel"
+                app:layout_constraintStart_toStartOf="@id/timeLabel"
+                app:layout_constraintTop_toBottomOf="@id/timeLabel" />
+
+            <TextView
+                android:id="@+id/timeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#C0C0C0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dateTV"
+                app:layout_constraintTop_toBottomOf="@id/timeBtn" />
+
+            <TextView
+                android:id="@+id/eventTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/events"
+                android:textColor="#C0C0C0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dateTV" />
+
+            <Spinner
+                android:id="@+id/eventSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/eventTV"
+                app:layout_constraintTop_toTopOf="@id/eventTV" />
+
+            <TextView
+                android:id="@+id/alertTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/alert"
+                android:textColor="#C0C0C0"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/eventTV" />
+
+            <Spinner
+                android:id="@+id/alertSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/alertTV"
+                app:layout_constraintTop_toTopOf="@id/alertTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:background="@drawable/round_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/alertSpinner" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

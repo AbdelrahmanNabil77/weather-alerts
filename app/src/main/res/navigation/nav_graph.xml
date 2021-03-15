@@ -19,7 +19,15 @@
         android:id="@+id/alarmFragment"
         android:name="com.example.weatherforecast.view.AlarmFragment"
         android:label="@string/alarm"
-        tools:layout="@layout/fragment_alarm" />
+        tools:layout="@layout/fragment_alarm" >
+        <action
+            android:id="@+id/action_alarmFragment_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/daysFragment"
         android:name="com.example.weatherforecast.view.DaysFragment"
@@ -48,4 +56,25 @@
         app:exitAnim="@anim/slide_out_bottom"
         app:popEnterAnim="@anim/slide_in_bottom"
         app:popExitAnim="@anim/slide_out_top" />
+    <fragment
+        android:id="@+id/addAlarmFragment"
+        android:name="com.example.weatherforecast.view.AddAlarmFragment"
+        android:label="@string/addAlarm"
+        tools:layout="@layout/fragment_add_alarm" />
+    <fragment
+        android:id="@+id/hoursFragment"
+        android:name="com.example.weatherforecast.view.HoursFragment"
+        android:label="@string/_24_hour_forecast"
+        tools:layout="@layout/fragment_hours" >
+        <argument
+            android:name="weather"
+            app:argType="com.example.weatherforecast.model.Weather" />
+    </fragment>
+    <action android:id="@+id/action_global_hoursFragment"
+        app:destination="@id/hoursFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+
 </navigation>

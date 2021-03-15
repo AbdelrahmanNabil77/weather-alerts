@@ -1,13 +1,17 @@
 package com.example.weatherforecast.utilities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import com.example.weatherforecast.R
 import com.example.weatherforecast.model.Constants
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
+import java.text.SimpleDateFormat
+import java.time.*
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.*
 import kotlin.coroutines.coroutineContext
@@ -77,6 +81,57 @@ class Utility() {
 
         }
 
+        @SuppressLint("MissingPermission")
+        fun isOnline(context: Context): Boolean {
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (connectivityManager != null) {
+                val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                        Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_CELLULAR")
+                        return true
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_WIFI")
+                        return true
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                        Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_ETHERNET")
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+
+        fun epochToTime(epoch:Int):String{
+            //val simpleDateFormat = SimpleDateFormat("hh:mm")
+            val dateTimFormat=DateTimeFormatter.ofPattern("hh:mm")
+            val dt = Instant.ofEpochSecond(epoch.toLong()).atZone(ZoneId.systemDefault()).toLocalTime()
+            var time=dt.format(dateTimFormat)
+            var cal=Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY,dt.hour)
+            cal.set(Calendar.MINUTE,dt.minute)
+
+            return time
+
+        }
+
+         fun getDayTime(dt:Int,timezoneOffset: Int):String{
+            val calender = Calendar.getInstance()
+             val cal= getInstance()
+             var mins=cal.get(Calendar.MINUTE)
+            calender.timeInMillis = dt.plus(timezoneOffset).minus(7200).toLong()*1000L+(mins*60000L)
+            val dateFormat = SimpleDateFormat("EE, HH:MM")
+            return dateFormat.format(calender.time)
+        }
+
+        fun getDate(dt:Int,timezoneOffset: Int):String{
+            val calender = Calendar.getInstance()
+            calender.timeInMillis = dt.plus(timezoneOffset).minus(7200).toLong()*1000L
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            return dateFormat.format(calender.time)
+        }
+
         fun isMorning():Boolean{
             var calendar= getInstance()
             var hours=calendar.get(HOUR_OF_DAY) as Integer
@@ -100,6 +155,34 @@ class Utility() {
             }else{
                 unit
             }
+        }
+
+        fun getTempUnit(context: Context):String{
+            val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+            val editor=sharedPref.edit()
+            val temp=sharedPref.getString(Constants.tempUnit,null)
+            return if(temp==null||temp.equals("")){
+                editor.apply{
+                    putString(Constants.tempUnit,context.resources.getString(R.string.kelv))
+                }.apply()
+                context.resources.getString(R.string.kelv)
+            }else{
+                temp
+            }
+        }
+
+        fun getWindSpeedUnit(context: Context):String{
+            val sharedPref= context.getSharedPreferences(Constants.sharedPrefSettings,Context.MODE_PRIVATE)
+            val editor=sharedPref.edit()
+            val speed=sharedPref.getString(Constants.speedUnit,null)
+           return if(speed==null||speed.equals("")){
+               editor.apply{
+                   putString(Constants.speedUnit,context.resources.getString(R.string.meterPerSec))
+               }.apply()
+               context.resources.getString(R.string.meterPerSec)
+           }else{
+               speed
+           }
         }
 
         fun getLocale(context: Context):String{

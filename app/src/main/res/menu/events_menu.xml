@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/chooseAlert"
+        android:title="@string/choose_alert"/>
+
+    <item android:id="@+id/clearSky"
+    android:title="@string/clear_sky"/>
+
+    <item android:id="@+id/fewClouds"
+        android:title="@string/few_clouds"/>
+
+    <item android:id="@+id/scatteredClouds"
+        android:title="@string/scattered_clouds"/>
+
+    <item android:id="@+id/brokenClouds"
+        android:title="@string/broken_clouds"/>
+
+    <item android:id="@+id/showerRain"
+        android:title="@string/shower_rain"/>
+
+    <item android:id="@+id/rain"
+        android:title="@string/rain"/>
+
+    <item android:id="@+id/thunderstorm"
+        android:title="@string/thunderstorm"/>
+
+    <item android:id="@+id/snow"
+        android:title="@string/snow"/>
+
+    <item android:id="@+id/mist"
+        android:title="@string/mist"/>
+
+
+</menu>
