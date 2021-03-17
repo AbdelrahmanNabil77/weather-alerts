@@ -1,5 +1,7 @@
 Developer: AbdElRahman Nabil
 Weather forecast app: 
+minSdkVersion 26
+targetSdkVersion 30
 You can find the weather information about your current location for 24 hours in details and for next 7 days, in the home screen.
 And you can add favorite places to get all the weather information just like the current location, in the favorite screen.
 And you can set an alert to check the weather in a specific date and time. 
