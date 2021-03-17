@@ -26,4 +26,43 @@
         <item>Arabic</item>
         <item>English</item>
     </string-array>
+    <string name="deleteFav">هل أنت متأكد من مسح هذا المكان من المفضلة؟</string>
+    <string name="date">التاريخ</string>
+    <string name="time">الوقت</string>
+    <string name="meterPerSec">متر/الثانية</string>
+    <string name="milePerHr">ميل/ساعة</string>
+    <string name="cel">س</string>
+    <string name="fahr">ف</string>
+    <string name="kelv">ك</string>
+    <string name="addAlarm">أضف منبه</string>
+    <string name="clear_sky">clear sky</string>
+    <string name="few_clouds">few clouds</string>
+    <string name="scattered_clouds">scattered clouds</string>
+    <string name="broken_clouds">broken clouds</string>
+    <string name="shower_rain">shower rain</string>
+    <string name="rain">rain</string>
+    <string name="ok">حسنا</string>
+    <string name="noInternet">لا يوجد اتصال بالانترنت</string>
+    <string name="thunderstorm">thunderstorm</string>
+    <string name="snow">snow</string>
+    <string name="mist">mist</string>
+    <string name="choose_alert">اختر تنبيه</string>
+    <string name="notification">إشعار</string>
+    <string name="events">الحدث: </string>
+    <string name="alert">التنبيه: </string>
+    <string name="validTime">هذا الوقت والتاريخ غير صالح</string>
+    <string name="networkAlertIssue">
+        للأسف التطبيق يحتاج أن يكون متصل بالإنترنت ليتحقق من الحدث, من الممكن تشغيل الإتصال بالإنترنت وإعادة تشغيل التطبيق</string>
+    <string name="_24_hour_forecast">توقع ال 24 ساعة</string>
+    <string name="add">أضف</string>
+    <string name="warning">تحذير</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="permReq">طلب تصريح</string>
+    <string name="enableLocation">هل يمكنك تشغيل تحديد الموقع؟</string>
+    <string name="networkError">مشكلة بالإنترنت</string>
+    <string name="noPermDialog">بدون هذا التصريح لن يعمل التطبيق كما يجب\nهل تريد إعطاء التطبيق التصريح؟</string>
+    <string name="noLocationToast">للأسف الطقس في موقعك الحالي والمنبه لن يعملوا بالشكل المتوقع</string>
+    <string name="deleteAlarmDialog">هل أنت واثق من مسح المنبه؟</string>
+    <string name="addAlarmToast">يجب تحديد موقعك الحالي اولاً</string>
 </resources>

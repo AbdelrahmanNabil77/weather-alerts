@@ -2,6 +2,7 @@ package com.example.weatherforecast.view
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -105,23 +106,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkDrawOverAppsPermissionsDialog() {
-        if (!Settings.canDrawOverlays(this)) {
-        AlertDialog.Builder(this).setTitle("Permission request").setCancelable(false).setMessage("Allow Draw Over Apps Permission to be able to use application probably")
-            .setPositiveButton("Yes") { dialog, which -> drawOverAppPermission() }.setNegativeButton(
-                "No"
-            ) { dialog, which -> errorWarningForNotGivingDrawOverAppsPermissions() }.show()}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                AlertDialog.Builder(this).setTitle("Permission request").setCancelable(false)
+                    .setMessage("Allow Draw Over Apps Permission to be able to use application probably")
+                    .setPositiveButton("Yes") { dialog, which -> drawOverAppPermission() }
+                    .setNegativeButton(
+                        "No"
+                    ) { dialog, which -> errorWarningForNotGivingDrawOverAppsPermissions() }.show()
+            }
+        }
     }
 
     fun drawOverAppPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName")
-                )
-                startActivityForResult(intent, 80)
-            }
-        }
+        val intent = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:$packageName")
+        )
+        startActivityForResult(intent, 80)
     }
 
 
@@ -136,15 +138,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun runBackgroundPermissions() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+           if( isMiuiWithApi28OrMore()){
+               goToXiaomiPermissions(this)
             if (Build.BRAND.equals("xiaomi", ignoreCase = true)) {
-                goToXiaomiPermissions(this)
                 val intent = Intent()
                 intent.component = ComponentName(
                     "com.miui.securitycenter",
                     "com.miui.permcenter.autostart.AutoStartManagementActivity"
                 )
-                startActivity(intent)
+                startActivity(intent)}
             } else if (Build.BRAND.equals("Honor", ignoreCase = true) || Build.BRAND.equals(
                     "HUAWEI",
                     ignoreCase = true
@@ -156,7 +158,6 @@ class MainActivity : AppCompatActivity() {
                 )
                 startActivity(intent)
             }
-        }
     }
 
     private fun noInternetDialog() {
@@ -186,10 +187,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun goToXiaomiPermissions(context: Context) {
-        val intent = Intent("miui.intent.action.APP_PERM_EDITOR")
-        intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
-        intent.putExtra("extra_pkgname", context.packageName)
-        context.startActivity(intent)
+        val dialog = AlertDialog.Builder(this)
+        dialog.setCancelable(false)
+        dialog.setTitle("permission request")
+        dialog.setMessage("We need your \nDisplay pop-up windows while running in the background\nDisplay pop-up window\nshow on lock screen\npermissions")
+        dialog.setPositiveButton("ok", DialogInterface.OnClickListener { dialog, which ->
+            val intent = Intent("miui.intent.action.APP_PERM_EDITOR")
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
+            intent.putExtra("extra_pkgname", context.packageName)
+            context.startActivity(intent)
+        }).setNegativeButton("no",DialogInterface.OnClickListener { dialog, which ->
+            Toast.makeText(this,"Unfortunately the alarm will not behave as expected without these permissions",Toast.LENGTH_LONG).show()
+        })
+        dialog.show()
+
     }
 
     private fun getSystemProperty(propName: String): String? {

@@ -7,8 +7,6 @@ import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -40,23 +38,19 @@ class DialogActivity : AppCompatActivity() {
 
         alarmViewModel = ViewModelProvider(this).get(AlarmViewModel::class.java)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
         if (Utility.isOnline(this)) {
             alarmViewModel.getAlertWeatherLive().observe(this, {
                 homeViewModel.insertHomeWeather(it)
                 if (it.current?.weather?.get(0)?.description!!.equals(event)) {
-                    Log.d(Constants.logTag, "RIGHT EVENT")
                     if (alert.equals("Alarm")) {
                         showDialog(it.timezone!!, event!!)
                     } else {
                         showNotification(it.timezone!!, event!!)
                     }
                 } else {
-                    Log.d(Constants.logTag, "FALSE EVENT")
                 }
             })
-            Log.d(Constants.logTag, "INTENT" + intent.getIntExtra(Constants.alertID, 0))
-            Log.d(Constants.logTag, "INTENT" + intent.getStringExtra(Constants.EVENT))
-            Log.d(Constants.logTag, "INTENT" + intent.getStringExtra(Constants.ALERT))
         }
         else{
             showInternetConnectionErrorDialog()
@@ -64,13 +58,13 @@ class DialogActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 alarmViewModel.deleteAlert(intent.getIntExtra(Constants.alertID, 0))
             }
-            Log.d(Constants.logTag, "HURRRRRRRRRRAY ACTIVITY")
+
 
 
     }
 
     fun showInternetConnectionErrorDialog() {
-        AlertDialog.Builder(this).setTitle("Network Error").setMessage(R.string.networkAlertIssue).setPositiveButton("Ok") { dialog, which ->
+        AlertDialog.Builder(this).setTitle(R.string.networkError).setMessage(R.string.networkAlertIssue).setPositiveButton(R.string.ok) { dialog, which ->
             finish()
         }.show()
     }
@@ -111,6 +105,8 @@ class DialogActivity : AppCompatActivity() {
                 .setOngoing(false)
                 .build()
             notificationManagerCompat.notify(1, notification)
+
+        finish()
 
     }
 }

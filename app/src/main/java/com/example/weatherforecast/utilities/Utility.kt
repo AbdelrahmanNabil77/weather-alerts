@@ -89,13 +89,10 @@ class Utility() {
                 val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
                 if (capabilities != null) {
                     if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                        Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_CELLULAR")
                         return true
                     } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                        Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_WIFI")
                         return true
                     } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                        Log.d(Constants.logTag, "NetworkCapabilities.TRANSPORT_ETHERNET")
                         return true
                     }
                 }
@@ -135,7 +132,7 @@ class Utility() {
         fun isMorning():Boolean{
             var calendar= getInstance()
             var hours=calendar.get(HOUR_OF_DAY) as Integer
-            return if(hours>=5&&hours<=17) {
+            return if(hours>=6&&hours<=17) {
                 true
             }else{
                 false

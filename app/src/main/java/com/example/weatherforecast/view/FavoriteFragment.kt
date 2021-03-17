@@ -80,7 +80,7 @@ class FavoriteFragment : Fragment(),FavoriteRecyclerClickListener{
             if (Utility.isOnline(requireContext())){
                 showAutoCompleteBar()
             }else{
-                Toast.makeText(requireContext(),"The internet connection is disabled",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),R.string.noInternet,Toast.LENGTH_LONG).show()
             }
         }
 
@@ -105,9 +105,9 @@ class FavoriteFragment : Fragment(),FavoriteRecyclerClickListener{
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(carmenFeature: CarmenFeature) {
-                // TODO: Use the longitude and latitude
-                Toast.makeText(context,"latitude ${carmenFeature.center()?.latitude()} \n longitude ${carmenFeature.center()?.longitude()}"
-                    , Toast.LENGTH_LONG).show()
+//                // TODO: Use the longitude and latitude
+//                Toast.makeText(context,"latitude ${carmenFeature.center()?.latitude()} \n longitude ${carmenFeature.center()?.longitude()}"
+//                    , Toast.LENGTH_LONG).show()
                 newLocation= LatLng(carmenFeature.center()?.latitude()!!,carmenFeature.center()?.longitude()!!)
                 done.postValue(true)
                 activity?.supportFragmentManager?.beginTransaction()?.remove(autocompleteFragment)?.commit()
@@ -127,9 +127,9 @@ class FavoriteFragment : Fragment(),FavoriteRecyclerClickListener{
     }
 
     override fun deleteItem(weather: Weather) {
-        val dialog=AlertDialog.Builder(requireContext()).setTitle("Warning").setMessage("Are you sure you want to delete this location from favorite?").setPositiveButton("yes") { dialog, which ->
+        val dialog=AlertDialog.Builder(requireContext()).setTitle(R.string.warning).setMessage(R.string.deleteFav).setPositiveButton(R.string.yes) { dialog, which ->
             viewModel.deleteFavoriteItem(weather)
-        }.setNegativeButton("no",DialogInterface.OnClickListener { dialog, which ->
+        }.setNegativeButton(R.string.no,DialogInterface.OnClickListener { dialog, which ->
             dialog.dismiss()
         }).setCancelable(false).show()
 

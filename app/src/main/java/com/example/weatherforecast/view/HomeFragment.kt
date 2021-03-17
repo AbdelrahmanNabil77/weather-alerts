@@ -2,7 +2,9 @@ package com.example.weatherforecast.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -42,6 +44,7 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import com.example.weatherforecast.R.*
 
 
 class HomeFragment : Fragment() {
@@ -64,7 +67,6 @@ class HomeFragment : Fragment() {
         val view = binding.root
         return view
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -117,7 +119,6 @@ class HomeFragment : Fragment() {
                 binding.descriptionTV.text = it.current?.weather?.get(0)?.description
                 binding.timezoneTV.text = it.timezone
                 binding.weatherIcon.background = Utility.getIcon(this.context, it.current?.weather!![0]?.icon.toString())
-                Log.d(Constants.logTag, "TIMEZONE IS: " + it.timezone)
             }
         })
         binding.weekForecast.setOnClickListener {
@@ -180,9 +181,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun enableLocation(){
-        Toast.makeText(activity, "could you enable your location?", Toast.LENGTH_SHORT).show()
-        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-        startActivity(intent)
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setCancelable(false)
+        dialog.setTitle(string.permReq)
+        dialog.setMessage(string.enableLocation)
+        dialog.setPositiveButton(string.yes, DialogInterface.OnClickListener { dialog, which ->
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        })
+            .setNegativeButton(string.no,DialogInterface.OnClickListener { dialog, which ->
+                Toast.makeText(requireContext(), string.noLocationToast, Toast.LENGTH_SHORT).show()
+            })
+        dialog.show()
+
+
     }
 
     private fun isPermissionsGranted(): Boolean {
@@ -208,13 +220,10 @@ class HomeFragment : Fragment() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.d(Constants.logTag, "req " + requestCode)
         if (requestCode==permissionID){
             if (grantResults.get(0)==PackageManager.PERMISSION_GRANTED){
-                Log.d(Constants.logTag, "GRANTED")
                 getLocation()
             }else{
-                Log.d(Constants.logTag, "DENIED")
                 warningDialog()
             }
         }
@@ -222,21 +231,18 @@ class HomeFragment : Fragment() {
 
     private fun warningDialog(){
         val builder = AlertDialog.Builder(requireActivity())
-        builder.setTitle("Warning")
+        builder.setTitle(string.warning)
         builder.setMessage(
-                "without this permission the app will not be able to work properly!\n " +
-                        "Would you like to give us the permission?"
+                string.noPermDialog
         )
 
-        builder.setPositiveButton("Yes") { dialog, which ->
+        builder.setPositiveButton(string.yes) { dialog, which ->
             requestPermission()
         }
-        builder.setNegativeButton("No") { dialog, which ->
+        builder.setNegativeButton(string.no) { dialog, which ->
         }
         builder.show()
     }
-
-
 
 
 
